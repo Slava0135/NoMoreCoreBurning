@@ -1,0 +1,23 @@
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.game.Teams.*;
+import mindustry.gen.Fire;
+import mindustry.gen.Groups;
+import mindustry.mod.Plugin;
+import mindustry.world.blocks.storage.CoreBlock.*;
+
+import static mindustry.Vars.tilesize;
+
+public class NoMoreCoreBurning extends Plugin {
+
+    @Override
+    public void init() {
+        Timer.schedule(() -> {
+            for (TeamData team : Vars.state.teams.active) {
+                for (CoreBuild core : team.cores) {
+                    Groups.fire.each(fire -> fire.dst2(core) <= tilesize * core.block.size, Fire::remove);
+                }
+            }
+        }, 0, 1);
+    }
+}
