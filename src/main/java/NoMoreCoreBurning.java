@@ -15,7 +15,7 @@ public class NoMoreCoreBurning extends Plugin {
         Timer.schedule(() -> {
             for (TeamData team : Vars.state.teams.active) {
                 for (CoreBuild core : team.cores) {
-                    Groups.fire.each(fire -> fire.dst(core) < 2 * tilesize * core.block.size, Fire::remove);
+                    Groups.fire.each(fire -> fire.dst2(core) < 4 * tilesize * tilesize * core.block.size * core.block.size, Fire::remove);
                 }
             }
         }, 0, 1f);
