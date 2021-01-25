@@ -1,5 +1,6 @@
 import arc.util.Timer;
 import mindustry.Vars;
+import mindustry.entities.Fires;
 import mindustry.game.Teams.*;
 import mindustry.gen.Fire;
 import mindustry.gen.Groups;
@@ -15,7 +16,9 @@ public class NoMoreCoreBurning extends Plugin {
         Timer.schedule(() -> {
             for (TeamData team : Vars.state.teams.active) {
                 for (CoreBuild core : team.cores) {
-                    Groups.fire.each(fire -> fire.dst2(core) < 4 * tilesize * tilesize * core.block.size * core.block.size, Fire::remove);
+                    if (Fires.has(core.tile.x, core.tile.y)) {
+                        Groups.fire.each(fire -> fire.dst2(core) < 4 * tilesize * tilesize * core.block.size * core.block.size, Fire::remove);
+                    }
                 }
             }
         }, 0, 1f);
